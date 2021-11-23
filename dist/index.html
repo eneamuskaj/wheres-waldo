@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script src="bundle.js"></script>
+    <title>Where's Waldo?</title>
+  </head>
+  <body>
+    <div id="main">
+      <div id="startScreen">
+        <h1>Wheres Waldo?</h1>
+        <p>Click the button to start. You are timed!</p>
+        <div class="trial-container">
+          <img class="trial" src="/src/1.png" />
+          <img class="trial" src="/src/3.png" />
+          <img class="trial" src="/src/2.png" />
+        </div>
+        <button id="startButton">Start</button>
+      </div>
+      <div class="container">
+        <img id="image" src="/src/image.jpg" />
+        <div class="highlight" style="display: none"></div>
+        <div class="dropdown" style="display: none">
+          <img class="checker" src="/src/1.png" />
+          <img class="checker" src="/src/3.png" />
+          <img class="checker" src="/src/2.png" />
+        </div>
+      </div>
+
+      <div class="popuptext" id="myPopup"></div>
+    </div>
+  </body>
+</html>
