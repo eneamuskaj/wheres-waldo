@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAH_3oN2YqdsJefZJ4WYnHpFgFhV3ibP7s",
@@ -15,14 +15,14 @@ initializeApp(firebaseConfig);
 //init services
 const db = getFirestore();
 //collection ref
-const colRef = collection(db, "mapdata");
+const colRef1 = collection(db, "mapdata");
+const colRef2 = collection(db, "scoreboard");
 //get collection data
-getDocs(colRef).then((snapshot) => {
+getDocs(colRef1).then((snapshot) => {
   let imageData = [];
   snapshot.docs.forEach((doc) => {
     imageData.push({ ...doc.data(), id: doc.id });
   });
-
   var picture = document.getElementById("image");
   picture.addEventListener("click", getPicureCoordinates);
   picture.addEventListener("click", highlight);
@@ -31,6 +31,9 @@ getDocs(colRef).then((snapshot) => {
   var image2 = document.getElementsByClassName("checker")[1];
   var image3 = document.getElementsByClassName("checker")[2];
   var popup = document.getElementsByClassName("popuptext")[0];
+  var counter = document.getElementById("counter");
+  var scoreForm = document.getElementById("inputName");
+
   function checkWinner() {
     if (
       image1.style.display === "none" &&
@@ -39,6 +42,16 @@ getDocs(colRef).then((snapshot) => {
     ) {
       let message = "You Won!!!";
       showPopup(message);
+      console.log(counter.innerHTML);
+      showPopup("Your Score is: " + counter.innerHTML);
+      myStopFunction();
+      scoreForm.style.zIndex = 1;
+      let submit = document.querySelector(".inputForm");
+      submit.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        addScore(counter.innerHTML, submit.name.value);
+      });
     }
   }
   function hideDropdown() {
@@ -98,11 +111,35 @@ getDocs(colRef).then((snapshot) => {
     }
   });
 });
+let interval;
+function myStopFunction() {
+  clearInterval(interval);
+}
+
+function addScore(score, userName) {
+  addDoc(colRef2, {
+    name: userName,
+    seconds: parseInt(score),
+  });
+}
+
 window.addEventListener("load", function () {
   var start = document.getElementById("startButton");
   var startScreen = document.getElementById("startScreen");
   start.addEventListener("click", () => {
     startScreen.style.display = "none";
+    var counter = document.getElementById("counter");
+
+    function startTimer() {
+      interval = setInterval(reload, 100);
+    }
+
+    function reload() {
+      let newTime = parseFloat(counter.textContent) + 0.1;
+      counter.textContent = newTime.toFixed(1);
+    }
+
+    startTimer();
   });
 });
 
