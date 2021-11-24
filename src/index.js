@@ -1,5 +1,13 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  query,
+  where,
+  orderBy,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAH_3oN2YqdsJefZJ4WYnHpFgFhV3ibP7s",
@@ -17,8 +25,10 @@ const db = getFirestore();
 //collection ref
 const colRef1 = collection(db, "mapdata");
 const colRef2 = collection(db, "scoreboard");
+//queries
+const q = query(colRef2, orderBy("seconds", "asc"));
 //get collection data
-getDocs(colRef2).then((snapshot) => {
+getDocs(q).then((snapshot) => {
   let imageData2 = [];
   snapshot.docs.forEach((doc) => {
     imageData2.push({ ...doc.data(), id: doc.id });
@@ -33,7 +43,7 @@ getDocs(colRef2).then((snapshot) => {
     paragraph1.innerHTML = "Name: " + imageData2[i].name;
     nameDiv.appendChild(paragraph1);
     let paragraph2 = document.createElement("p");
-    paragraph2.innerHTML = "Score: " + imageData2[i].seconds;
+    paragraph2.innerHTML = "Score: " + imageData2[i].seconds + " s";
     scoreDiv.appendChild(paragraph2);
   }
 });
