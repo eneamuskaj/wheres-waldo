@@ -11,7 +11,7 @@
   <body>
     <div id="main">
       <div id="startScreen">
-        <h1>Wheres Waldo?</h1>
+        <h1>Where's Waldo?</h1>
         <p>Click the button to start. You are timed!</p>
         <div class="trial-container">
           <img class="trial" src="/src/1.png" />
@@ -19,6 +19,8 @@
           <img class="trial" src="/src/2.png" />
         </div>
         <button id="startButton">START</button>
+        <p>Score Board:</p>
+        <div id="leaderBoard"></div>
       </div>
       <div class="container">
         <div id="counter">0</div>
@@ -36,7 +38,7 @@
         <form class="inputForm">
           <label for="name">Name:</label><br />
           <input type="text" name="name" required /><br />
-          <button>Submit</button>
+          <button id="addScoreButton">Submit</button>
         </form>
       </div>
     </div>

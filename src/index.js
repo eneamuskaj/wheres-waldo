@@ -18,6 +18,25 @@ const db = getFirestore();
 const colRef1 = collection(db, "mapdata");
 const colRef2 = collection(db, "scoreboard");
 //get collection data
+getDocs(colRef2).then((snapshot) => {
+  let imageData2 = [];
+  snapshot.docs.forEach((doc) => {
+    imageData2.push({ ...doc.data(), id: doc.id });
+  });
+  var leaderBoard = document.getElementById("leaderBoard");
+  let nameDiv = document.createElement("div");
+  let scoreDiv = document.createElement("div");
+  leaderBoard.appendChild(nameDiv);
+  leaderBoard.appendChild(scoreDiv);
+  for (let i = 0; i < imageData2.length; i++) {
+    let paragraph1 = document.createElement("p");
+    paragraph1.innerHTML = "Name: " + imageData2[i].name;
+    nameDiv.appendChild(paragraph1);
+    let paragraph2 = document.createElement("p");
+    paragraph2.innerHTML = "Score: " + imageData2[i].seconds;
+    scoreDiv.appendChild(paragraph2);
+  }
+});
 getDocs(colRef1).then((snapshot) => {
   let imageData = [];
   snapshot.docs.forEach((doc) => {
@@ -120,7 +139,7 @@ function addScore(score, userName) {
   addDoc(colRef2, {
     name: userName,
     seconds: parseInt(score),
-  });
+  }).then(() => location.reload());
 }
 
 window.addEventListener("load", function () {
